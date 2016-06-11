@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="demo_form.asp" method="get">
+    {% for post in posts %}
+    <input type="checkbox" name={{post.name}} value={{post.value}}> {{post.message}}<br>
+{% endfor %}
+</form>
+
+</body>
+</html>
