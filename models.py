@@ -46,15 +46,11 @@ class Genre(object):
                 setattr(obj, key, value)
             session.commit()
 
-    # def __repr__(self):
-    #     return unicode(u"<Genre({}, {})>".format(self.name.decode('utf-8'), self.chosen))
-
-
 mapper(Genre, users_table)
 metadata.create_all(engine)
 
 
-if __name__=='__main__':
+if __name__== '__main__':
     x = Genre('Учебник',0)
     x.chosen = 1
     print x

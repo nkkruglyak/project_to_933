@@ -26,7 +26,7 @@ def read_base():
 def prepare_list_of_genres_for_template():
     """Возвращает словарь специального вида. в котором по ключу 'message' лежат все имена объектов из базы"""
     records = GenreManager.find()
-    data = [{'name': x.id , 'value': x.chosen, 'message': x.name} for x in records]
+    data = [{'name': x.id, 'value': x.chosen, 'message': x.name} for x in records]
     return data
 
 
