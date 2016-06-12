@@ -2,10 +2,15 @@
 <html>
 <body>
 
-<form action="demo_form.asp" method="get">
+<form role="form" method="post">
     {% for post in posts %}
-    <input type="checkbox" name={{post.name}} value={{post.value}}> {{post.message}}<br>
+    {%if post.value==1%}
+     <input type="checkbox" name={{post.name}} value={{post.value}} , checked=''> {{post.message}}<br>
+    {%else%}
+     <input type="checkbox" name={{post.name}} value={{post.value}}> {{post.message}}<br>
+    {%endif%}
 {% endfor %}
+    <button type="submit" name="submit" value="submit">Submit</button>
 </form>
 
 </body>

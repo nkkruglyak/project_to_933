@@ -12,7 +12,7 @@ metadata = MetaData()
 users_table = Table('genre', metadata,
                     Column('id', Integer, primary_key=True),
                     Column('name', String),
-                    Column('choosen', Integer, default=0))
+                    Column('chosen', Integer, default=0))
 
 Session = sessionmaker(bind=engine)
 
@@ -34,13 +34,27 @@ def make_session(Session=Session):
 
 class Genre(object):
     """Обертка над информацией о жанре для сохранения в базу"""
-    def __init__(self, name, choosen):
+    def __init__(self, name, chosen):
         self.name = name
-        self.choosen = choosen
+        self.chosen = chosen
 
-    def __repr__(self):
-        return unicode(u"<Genre({}, {})>".format(self.name.decode('utf-8'), self.choosen))
+    def update(self, data):
+        """Обновляет запись в базе по словарю новых значений"""
+        with make_session() as session:
+            obj = session.query(Genre).filter_by(id=self.id).first()
+            for key, value in data.items():
+                setattr(obj, key, value)
+            session.commit()
+
+    # def __repr__(self):
+    #     return unicode(u"<Genre({}, {})>".format(self.name.decode('utf-8'), self.chosen))
 
 
 mapper(Genre, users_table)
 metadata.create_all(engine)
+
+
+if __name__=='__main__':
+    x = Genre('Учебник',0)
+    x.chosen = 1
+    print x

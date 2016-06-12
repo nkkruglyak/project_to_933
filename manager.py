@@ -8,21 +8,25 @@ class GenreManager(object):
     table = Genre
 
     @classmethod
-    def find_one(cls, genre):
+    def find_one(cls, query):
         """Возвращает первую запись с жанром -- genre.
         Если ее нет возврщает None"""
+        if 'name' in query:
+            query['name'] = query['name'].decode('utf-8')
         with make_session() as session:
-            result = session.query(cls.table).filter_by(name=genre.decode('utf-8')).first()
+            result = session.query(cls.table).filter_by(**query).first()
             if result:
                 session.expunge(result)
         return result
 
     @classmethod
-    def create_genre(cls, genre, choosen):
+    def create_genre(cls, genre, chosen):
         """Создает в базе запись жанра -- genre, индификатор выбора -- choosen(0 или 1)"""
         with make_session() as session:
-            record = cls.table(genre.decode('utf-8'), choosen)
+            #import ipdb; ipdb.set_trace()
+            record = cls.table(genre.decode('utf-8'), chosen)  #
             session.add(record)
+        return record
 
     @classmethod
     def find(cls):
@@ -41,10 +45,6 @@ class GenreManager(object):
             return not bool(result)
 
 
-if __name__ == '__main__':
-    print(GenreManager.is_empty())
-    GenreManager.create_genre(u"Детектив", 1)
-    GenreManager.create_genre(u"Детские книги", 0)
-    w = GenreManager.find_one(u"Детектив")
-    print(GenreManager.is_empty())
+
+
 
